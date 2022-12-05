@@ -1,0 +1,26 @@
+spring:
+  mvc:
+    static-path-pattern: /static/**
+    converters:
+      preferred-json-mapper: gson
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp1286y72oj9qa4ncso.mysql.rds.aliyuncs.com:3306/book_manager?serverTimezone=UTC&useSSL=false
+    username: lw230036208
+    password: '@lw353845361lahlw'
+  redis:
+    client-name: lw230036208
+    host: r-bp1h1ym2rbvuogqv5ppd.redis.rds.aliyuncs.com
+    password: '@lw353845361lahlw'
+  main:
+    allow-circular-references: true
+server:
+  port: 8080
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
