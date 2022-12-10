@@ -1,6 +1,5 @@
 package com.xzit.bookmanager.service;
 
-import com.github.pagehelper.PageInfo;
 import com.xzit.bookmanager.entity.AuthUser;
 import com.xzit.bookmanager.entity.Book;
 import com.xzit.bookmanager.entity.Borrow;

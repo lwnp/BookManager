@@ -3,7 +3,6 @@ package com.xzit.bookmanager.service;
 import com.github.pagehelper.PageInfo;
 import com.xzit.bookmanager.entity.Book;
 
-import java.util.List;
 
 public interface BookService {
     public PageInfo<Book> getBookList(int pageNum,int rows);

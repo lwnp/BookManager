@@ -1,8 +1,6 @@
 package com.xzit.bookmanager.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xzit.bookmanager.entity.AuthUser;
-import com.xzit.bookmanager.entity.Book;
 import com.xzit.bookmanager.entity.Borrow;
 import com.xzit.bookmanager.entity.OriginBorrow;
 import org.apache.ibatis.annotations.Delete;

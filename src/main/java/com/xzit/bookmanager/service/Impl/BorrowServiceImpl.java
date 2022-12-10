@@ -1,8 +1,5 @@
 package com.xzit.bookmanager.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.xzit.bookmanager.dao.mapper.BookMapper;
 import com.xzit.bookmanager.dao.mapper.BorrowInfoMapper;

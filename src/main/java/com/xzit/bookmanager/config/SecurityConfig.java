@@ -3,7 +3,6 @@ package com.xzit.bookmanager.config;
 import com.xzit.bookmanager.dao.mapper.UserMapper;
 import com.xzit.bookmanager.entity.AuthUser;
 import com.xzit.bookmanager.service.Impl.AuthService;
-import com.xzit.bookmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

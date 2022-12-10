@@ -8,7 +8,6 @@ import com.xzit.bookmanager.dao.mapper.BookMapper;
 import com.xzit.bookmanager.dao.mapper.BorrowInfoMapper;
 import com.xzit.bookmanager.dao.mapper.BorrowMapper;
 import com.xzit.bookmanager.entity.Book;
-import com.xzit.bookmanager.entity.Borrow;
 import com.xzit.bookmanager.entity.OriginBorrow;
 import com.xzit.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class BookServiceImpl implements BookService {

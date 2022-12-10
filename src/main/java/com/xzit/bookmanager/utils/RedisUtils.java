@@ -1,13 +1,11 @@
 package com.xzit.bookmanager.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.xzit.bookmanager.dao.mapper.BookMapper;
 import com.xzit.bookmanager.dao.mapper.BorrowMapper;
 import com.xzit.bookmanager.dao.mapper.UserMapper;
 import com.xzit.bookmanager.entity.AuthUser;
 import com.xzit.bookmanager.entity.Book;
-import com.xzit.bookmanager.entity.Borrow;
 import com.xzit.bookmanager.entity.Statistic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

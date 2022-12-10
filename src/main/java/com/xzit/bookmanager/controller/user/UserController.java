@@ -9,7 +9,6 @@ import com.xzit.bookmanager.entity.Borrow;
 import com.xzit.bookmanager.service.BookService;
 import com.xzit.bookmanager.service.BorrowService;
 import com.xzit.bookmanager.service.UserService;
-import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;

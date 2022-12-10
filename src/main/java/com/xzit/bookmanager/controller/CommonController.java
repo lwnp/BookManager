@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 
 
 @Controller
