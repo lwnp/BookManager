@@ -1,6 +1,5 @@
 package com.xzit.bookmanager.service.Impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
@@ -84,7 +83,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Integer returnBook(String username) {
-        QueryWrapper<OriginBorrow> wrap=new QueryWrapper<>();
         List<OriginBorrow> borrowList=borrowMapper.getOriginBorrows(username);
         for(OriginBorrow borrow : borrowList){
             Book book = gson.fromJson(borrow.getBook(), Book.class);
