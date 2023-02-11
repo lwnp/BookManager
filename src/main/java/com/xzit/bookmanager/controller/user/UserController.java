@@ -32,6 +32,7 @@ public class UserController {
     StringRedisTemplate redisTemplate;
     @Autowired
     Gson gson;
+    String query;
     @GetMapping("/index")
     String index(HttpSession session, Model model, @RequestParam(value = "page",defaultValue = "1") int pageNum, @RequestParam(value = "size",defaultValue = "5") int pageSize){
         AuthUser user=userService.findUser(session);
@@ -59,5 +60,20 @@ public class UserController {
         return "user/book";
 
 
+    }
+    @PostMapping("searchBook")
+    @ResponseBody
+    Response  searchBook(@RequestParam("content") String content){
+        query=content;
+        return  Response.ok("接收数据");
+
+    }
+    @GetMapping("/searchResult")
+    String searchResult(HttpSession session,Model model, @RequestParam(value = "page",defaultValue = "1") int pageNum, @RequestParam(value = "size",defaultValue = "5") int pageSize){
+        AuthUser user =userService.findUser(session);
+        PageInfo<Book> bookList=bookService.searchBook(query,pageNum,pageSize);
+        model.addAttribute("user",user);
+        model.addAttribute("bookList",bookList);
+        return "user/index";
     }
 }

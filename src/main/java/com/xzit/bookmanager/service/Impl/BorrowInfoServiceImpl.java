@@ -20,4 +20,11 @@ public class BorrowInfoServiceImpl implements BorrowInfoService {
         List<BorrowInfo> list=borrowInfoMapper.getInfoList();
         return new PageInfo<>(list);
     }
+
+    @Override
+    public PageInfo<BorrowInfo> getBorrowInfoByQuery(String query, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<BorrowInfo> borrowInfos=borrowInfoMapper.getInfoListByQuery(query);
+        return new PageInfo<>(borrowInfos);
+    }
 }

@@ -18,4 +18,6 @@ public interface BorrowInfoMapper extends BaseMapper<BorrowInfo> {
     List<BorrowInfo> getInfoList();
     @Update("update t_borrowinfo set booknum=0 where username=#{username}")
     Integer returnBook(String username);
+    @Select("select * from t_borrowinfo where booknum>0 and username like concat('%',#{query},'%')")
+    List<BorrowInfo> getInfoListByQuery(String query);
 }

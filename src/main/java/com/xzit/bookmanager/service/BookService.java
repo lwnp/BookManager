@@ -12,4 +12,5 @@ public interface BookService {
     Integer updateBook(Book book);
     PageInfo<Book> getAvailableBook(int pageNum,int pageSize);
     Integer returnBook(String username);
+    PageInfo<Book> searchBook(String query,int pageNum,int pageSize);
 }

@@ -1,8 +1,10 @@
 package com.xzit.bookmanager;
 
 import com.google.gson.Gson;
+import com.xzit.bookmanager.dao.mapper.BorrowInfoMapper;
 import com.xzit.bookmanager.dao.mapper.UserMapper;
 import com.xzit.bookmanager.entity.AuthUser;
+import com.xzit.bookmanager.entity.BorrowInfo;
 import com.xzit.bookmanager.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,17 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 @SpringBootTest
 class BookManagerApplicationTests {
+
     @Autowired
     UserMapper userMapper;
     @Autowired
     RedisUtils redisUtils;
+    @Autowired
+    BorrowInfoMapper borrowInfoMapper;
     @Autowired
     StringRedisTemplate stringRedisTemplate;
     @Autowired
@@ -46,7 +53,8 @@ class BookManagerApplicationTests {
     }
     @Test
     void responseTest() {
-        System.out.println();
+        List<BorrowInfo> list=borrowInfoMapper.getInfoListByQuery("u");
+        System.out.println(list);
 
     }
 

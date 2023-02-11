@@ -59,6 +59,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="chart-holder">
+                                    <div class="container fa-pull-left">
+                                        <form >
+                                            <input type="text" placeholder="输入书籍名进行搜索" name="search" id="searchBar">
+                                            <button type="button" class="btn btn-primary" onclick="searchBook()">搜索</button>
+                                        </form>
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-styled mb-0">
                                             <thead>
@@ -347,6 +353,25 @@
             })
 
 
+        }
+        function searchBook(){
+            $.ajax({
+                type: "post",
+                async: false,
+                url : "/admin/searchBook",
+                dataType: "json",
+                data: {
+                    content : $('#searchBar').val()
+                },
+                success : function (data){
+                    if(data.success){
+                        window.location.replace("/admin/searchResult")
+                    }
+                    else {
+                        window.alert(data.msg)
+                    }
+                }
+            })
         }
 
     </script>

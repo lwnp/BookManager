@@ -1,25 +1,32 @@
 package com.xzit.bookmanager.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.xzit.bookmanager.dao.mapper.BookMapper;
 import com.xzit.bookmanager.dao.mapper.BorrowInfoMapper;
 import com.xzit.bookmanager.dao.mapper.BorrowMapper;
+import com.xzit.bookmanager.dao.mapper.HistoryMapper;
 import com.xzit.bookmanager.entity.Book;
+import com.xzit.bookmanager.entity.History;
 import com.xzit.bookmanager.entity.OriginBorrow;
 import com.xzit.bookmanager.service.BookService;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired
     BookMapper bookMapper;
+    @Autowired
+    HistoryMapper historyMapper;
     @Autowired
     Gson gson;
     @Autowired
@@ -28,6 +35,7 @@ public class BookServiceImpl implements BookService {
     BorrowMapper borrowMapper;
     @Autowired
     BorrowInfoMapper borrowInfoMapper;
+    History history=new History();
 
 
     @Override
@@ -77,21 +85,35 @@ public class BookServiceImpl implements BookService {
     @Override
     public PageInfo<Book> getAvailableBook(int pageNum,int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Book> bookList =bookMapper.getAvailableBook();
+        List<Book> bookList =bookMapper.selectList(null);
         return new PageInfo<>(bookList);
     }
 
     @Override
     public Integer returnBook(String username) {
+        history.setUsername(username);
         List<OriginBorrow> borrowList=borrowMapper.getOriginBorrows(username);
         for(OriginBorrow borrow : borrowList){
             Book book = gson.fromJson(borrow.getBook(), Book.class);
             book.setNumber(book.getNumber()+1);
             bookMapper.updateBook(book);
+            history.setISBN(book.getISBN());
+            history.setRdate(new Date());
+            history.setBdate(borrow.getDate());
+            historyMapper.insert(history);
 
         }
         borrowMapper.returnBorrow(username);
         return borrowInfoMapper.returnBook(username);
 
+    }
+
+    @Override
+    public PageInfo<Book> searchBook(String query,int pageNum,int pageSize) {
+        QueryWrapper<Book> wrapper=new QueryWrapper<>();
+        wrapper.like("title",query);
+        PageHelper.startPage(pageNum,pageSize);
+        List<Book> bookList=bookMapper.selectList(wrapper);
+        return new PageInfo<>(bookList);
     }
 }

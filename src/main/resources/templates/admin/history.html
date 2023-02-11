@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Begin Head -->
+
+<head>
+  <title>图书管理 - 图书管理系统</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="MobileOptimized" content="320">
+
+  <!--Start Style -->
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/fonts.css}" href="/static/css/fonts.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/bootstrap.min.css}" href="/static/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/font-awesome.min.css}" href="/static/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/icofont.min.css}" href="/static/css/icofont.min.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}" href="/static/css/style.css">
+</head>
+
+<body>
+<div class="loader">
+  <div class="spinner">
+    <img src="/static/picture/loader.gif" alt="">
+  </div>
+</div>
+<!-- Main Body -->
+<div class="page-wrapper">
+  <div th:replace="template.html::title"></div>
+  <div th:replace="template.html::aside"></div>
+  <div class="page-wrapper">
+    <div class="main-content">
+      <!-- Page Title Start -->
+      <div class="row">
+        <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="page-title-wrapper">
+            <div class="page-title-box ad-title-box-use">
+              <h4 class="page-title">操作记录</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Table Start -->
+      <div class="row">
+        <!-- Styled Table Card-->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="card table-card">
+            <div class="card-header pb-0">
+              <h4>图书列表</h4>
+            </div>
+            <div class="card-body">
+              <div class="chart-holder">
+                <div class="container fa-pull-left">
+                  <div class="row">
+                    <div class="col-6">
+                      <form >
+                        <input type="text" placeholder="输入用户名或ISBN" name="search" id="searchBar">
+                        <button type="button" class="btn btn-primary" onclick="searchHistory()">搜索</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-styled mb-0">
+                    <thead>
+                    <tr>
+                      <th>用户名</th>
+                      <th>ISBN</th>
+                      <th>借阅日期</th>
+                      <th>归还日期</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:block th:each="his : ${historyList.list}">
+                      <td th:text="${his.getUsername()}">1</td>
+                      <td th:text="${his.getISBN()}">1</td>
+                      <td th:text="${his.getBdate()}">1</td>
+                      <td th:text="${his.getRdate()}">1</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div class="container fa-pull-left">
+                    <ul class="pagination ">
+                      <li class="page-item" th:class="${historyList.getPageNum()==1}? 'page-item  disabled':'pageitem'"><a class="page-link" th:href="@{/admin/history?page=1}">首页</a></li>
+                      <li class="page-item" th:class="${historyList.getPageNum()-1==0}? 'page-item  disabled':'pageitem'"><a class="page-link" th:href="'?page='+${historyList.getPageNum()-1}">上一页</a></li>
+                      <li class="page-item" th:if="${historyList.getPageNum()-3>=1}"><a class="page-link" th:href="'?page='+${historyList.getPageNum()-3}" th:text="${historyList.getPageNum()-3}">1</a></li>
+                      <li class="page-item" th:if="${historyList.getPageNum()-2>=1}"><a class="page-link" th:href="'?page='+${historyList.getPageNum()-2}" th:text="${historyList.getPageNum()-2}">1</a></li>
+                      <li class="page-item" th:if="${historyList.getPageNum()-1>=1}"><a class="page-link" th:href="'?page='+${historyList.getPageNum()-1}" th:text="${historyList.getPageNum()-1}">1</a></li>
+                      <li class="page-item" th:class="'page-item active'"><a class="page-link" th:href="'?page='+${historyList.getPageNum()}" th:text="${historyList.getPageNum()}">2</a></li>
+                      <li class="page-item" th:if="${historyList.getPageNum()+1<=historyList.pages}"><a class="page-link" th:href="'?page='+${historyList.getPageNum()+1}" th:text="${historyList.getPageNum()+1}">1</a></li>
+                      <li class="page-item" th:if="${historyList.getPageNum()+2<=historyList.pages}"><a class="page-link" th:href="'?page='+${historyList.getPageNum()+2}" th:text="${historyList.getPageNum()+2}">1</a></li>
+                      <li class="page-item" th:if="${historyList.getPageNum()+3<=historyList.pages}"><a class="page-link" th:href="'?page='+${historyList.getPageNum()+3}" th:text="${historyList.getPageNum()+3}">1</a></li>
+                      <li class="page-item" th:class="${historyList.hasNextPage}? 'page-item':'page-item  disabled'"><a class="page-link" th:href="'?page='+${historyList.getPageNum()+1}">下一页</a></li>
+                      <li class="page-item" th:class="${historyList.getPageNum()==historyList.pages}? 'page-item  disabled':'page-item'"><a class="page-link" th:href="'?page='+${historyList.pages}">尾页</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script Start -->
+<script th:src="@{/static/js/jquery.min.js}"></script>
+<script th:src="@{/static/js/popper.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+<script th:src="@{/static/js/swiper.min.js}"></script>
+<script th:src="@{/static/js/apexcharts.min.js}"></script>
+<script th:src="@{/static/js/control-chart-apexcharts.js}"></script>
+<!-- Page Specific -->
+<script th:src="@{/static/js/nice-select.min.js}"></script>
+<!-- Custom Script -->
+<script th:src="@{/static/js/custom.js}"></script>
+<script type="text/javascript">
+    function searchHistory(){
+      $.ajax({
+        type: "post",
+        dataType: "json",
+        url: "/admin/searchHistory",
+        async: false,
+        data: {
+          content: $("#searchBar").val()
+        },
+        success:function (data){
+          if(data&&data.success){
+            window.location.replace("/admin/historyResults")
+          }
+        }
+      })
+    }
+</script>
+</body>
+
+</html>

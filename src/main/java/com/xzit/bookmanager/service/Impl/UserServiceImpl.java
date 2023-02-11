@@ -1,5 +1,6 @@
 package com.xzit.bookmanager.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
@@ -68,6 +69,15 @@ public class UserServiceImpl implements UserService {
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
         operations.getAndSet(authUser.getUsername(),gson.toJson(authUser));
         return userMapper.updateUserPassword(authUser);
+    }
+
+    @Override
+    public PageInfo<AuthUser> searchUserByQuery(String query, int pageNum, int pageSize) {
+        QueryWrapper<AuthUser> wrapper=new QueryWrapper<>();
+        wrapper.like("username",query);
+        PageHelper.startPage(pageNum,pageSize);
+        List<AuthUser> userList=userMapper.selectList(wrapper);
+        return new PageInfo<>(userList);
     }
 
 

@@ -10,4 +10,5 @@ public interface UserService {
     public AuthUser findUser(HttpSession session);
     public PageInfo<AuthUser> getUserList(int pageNum,int pageSize);
     public Integer resetPassword(AuthUser authUser);
+    public PageInfo<AuthUser> searchUserByQuery(String query,int pageNum,int pageSize);
 }

@@ -54,7 +54,14 @@
                             <div class="card-header pb-0">
                                 <h4>借阅可用书籍列表</h4>
                             </div>
+
                             <div class="card-body">
+                                <div class="container fa-pull-left">
+                                    <form >
+                                        <input type="text" placeholder="输入书籍名进行搜索" name="search" id="searchBar">
+                                        <button type="button" class="btn btn-primary" onclick="searchBook()">搜索</button>
+                                    </form>
+                                </div>
                                 <div class="chart-holder">
                                     <div class="table-responsive">
                                         <table class="table table-styled mb-0">
@@ -63,6 +70,7 @@
                                                 <th>ISBN</th>
                                                 <th>标题</th>
                                                 <th>简介</th>
+                                                <th>是否可借</th>
                                                 <th>借阅</th>
                                             </tr>
                                             </thead>
@@ -71,8 +79,9 @@
                                                 <td th:text="${book.getISBN()}">1</td>
                                                 <td th:text="${book.getTitle()}">书籍名称</td>
                                                 <td th:text="${book.getDescription()}">书籍简介</td>
+                                                <td th:text="${book.getNumber()>0}? '是':'否'"></td>
                                                 <td class="relative">
-                                                    <a class="action-btn" th:onclick="borrowBook([[${book.getISBN()}]])">
+                                                    <a class="action-btn" th:onclick="borrowBook([[${book.getISBN()}]],[[${book.getNumber()}]])">
                                                         <svg class="default-size " viewBox="0 0 341.333 341.333 ">
                                                             <g>
                                                                 <g>
@@ -126,23 +135,47 @@
     <!-- Custom Script -->
     <script th:src="@{/static/js/custom.js}"></script>
 <script type="text/javascript">
-    function borrowBook(ISBN){
+    function borrowBook(ISBN,number){
+        if(number>0){
+            $.ajax({
+                type : "post",
+                async : false,
+                dataType : "json",
+                url : "/user/borrowBook",
+                data : {ISBN : ISBN},
+                success : function(data){
+                    if(data&&data.success){
+                        window.alert(data.msg)
+                        window.location.reload()
+                    }
+                    else {
+                        window.alert(data.msg)
+                    }
+                }
+
+            })
+        }
+        else {
+            window.alert("该书已全部借出")
+        }
+    }
+    function searchBook(){
         $.ajax({
-            type : "post",
-            async : false,
-            dataType : "json",
-            url : "/user/borrowBook",
-            data : {ISBN : ISBN},
-            success : function(data){
-                if(data&&data.success){
-                    window.alert(data.msg)
-                    window.location.reload()
+            type: "post",
+            async: false,
+            url : "/user/searchBook",
+            dataType: "json",
+            data: {
+                content : $('#searchBar').val()
+            },
+            success : function (data){
+                if(data.success){
+                    window.location.replace("/user/searchResult")
                 }
                 else {
                     window.alert(data.msg)
                 }
             }
-
         })
     }
 </script>

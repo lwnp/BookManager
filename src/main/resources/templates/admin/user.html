@@ -20,7 +20,7 @@
     <script th:src="@{/static/js/nice-select.min.js}"></script>
     <!-- Custom Script -->
     <script th:src="@{/static/js/custom.js}"></script>
-    <title>借阅管理 - 图书管理系统</title>
+    <title>用户管理 - 图书管理系统</title>
 </head>
 <body>
     <div class="loader">
@@ -37,7 +37,7 @@
                     <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-title-wrapper">
                             <div class="page-title-box ad-title-box-use">
-                                <h4 class="page-title">用户借阅管理</h4>
+                                <h4 class="page-title">用户管理</h4>
                             </div>
                         </div>
                     </div>
@@ -50,6 +50,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="chart-holder">
+                                    <div class="container fa-pull-left">
+                                        <form >
+                                            <input type="text" placeholder="输入用户名进行搜索" name="search" id="searchBar">
+                                            <button type="button" class="btn btn-primary" onclick="searchUser()">搜索</button>
+                                        </form>
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table table-styled mb-0">
                                             <thead>
@@ -93,70 +99,6 @@
                                                 <li class="page-item" th:if="${userList.getPageNum()+3<=userList.pages}"><a class="page-link" th:href="'?upagenum='+${userList.getPageNum()+3}" th:text="${userList.getPageNum()+3}">1</a></li>
                                                 <li class="page-item" th:class="${userList.hasNextPage}? 'page-item':'page-item  disabled'"><a class="page-link" th:href="'?upagenum='+${userList.getPageNum()+1}">下一页</a></li>
                                                 <li class="page-item" th:class="${userList.getPageNum()==userList.pages}? 'page-item  disabled':'page-item'"><a class="page-link" th:href="'?upagenum='+${userList.pages}">尾页</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="card table-card">
-                            <div class="card-header pb-0">
-                                <h4>借阅列表</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-holder">
-                                    <div class="table-responsive">
-                                        <table class="table table-styled mb-0">
-                                            <thead>
-                                            <tr>
-                                                <th>用户名</th>
-                                                <th>借阅数</th>
-                                                <th>查看详情</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr th:block th:each="borrow:${borrowInfo.list}">
-                                                <td th:text="${borrow.getUsername()}"></td>
-                                                <td th:text="${borrow.getBooknum()}"></td>
-                                                <td class="relative" >
-                                                    <a class="action-btn" th:href="'/admin/user/userDetail/'+${borrow.getUsername}" >
-                                                        <svg class="default-size " viewBox="0 0 341.333 341.333 ">
-                                                            <g>
-                                                                <g>
-                                                                    <g>
-                                                                        <path d="M170.667,85.333c23.573,0,42.667-19.093,42.667-42.667C213.333,19.093,194.24,0,170.667,0S128,19.093,128,42.667 C128,66.24,147.093,85.333,170.667,85.333z "></path>
-                                                                        <path d="M170.667,128C147.093,128,128,147.093,128,170.667s19.093,42.667,42.667,42.667s42.667-19.093,42.667-42.667 S194.24,128,170.667,128z "></path>
-                                                                        <path d="M170.667,256C147.093,256,128,275.093,128,298.667c0,23.573,19.093,42.667,42.667,42.667s42.667-19.093,42.667-42.667 C213.333,275.093,194.24,256,170.667,256z "></path>
-                                                                    </g>
-                                                                </g>
-                                                            </g>
-                                                        </svg>
-
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                        <div class="container fa-pull-left">
-                                            <ul class="pagination ">
-                                                <li class="page-item" th:class="${borrowInfo.getPageNum()==1}? 'page-item  disabled':'pageitem'"><a class="page-link" th:href="@{/admin/user?bpage=1}">首页</a></li>
-                                                <li class="page-item" th:class="${borrowInfo.getPageNum()-1==0}? 'page-item  disabled':'pageitem'"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()-1}">上一页</a></li>
-                                                <li class="page-item" th:if="${borrowInfo.getPageNum()-3>=1}"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()-3}" th:text="${borrowInfo.getPageNum()-3}">1</a></li>
-                                                <li class="page-item" th:if="${borrowInfo.getPageNum()-2>=1}"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()-2}" th:text="${borrowInfo.getPageNum()-2}">1</a></li>
-                                                <li class="page-item" th:if="${borrowInfo.getPageNum()-1>=1}"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()-1}" th:text="${borrowInfo.getPageNum()-1}">1</a></li>
-                                                <li class="page-item" th:class="'page-item active'"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()}" th:text="${borrowInfo.getPageNum()}">2</a></li>
-                                                <li class="page-item" th:if="${borrowInfo.getPageNum()+1<=borrowInfo.pages}"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()+1}" th:text="${borrowInfo.getPageNum()+1}">1</a></li>
-                                                <li class="page-item" th:if="${borrowInfo.getPageNum()+2<=borrowInfo.pages}"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()+2}" th:text="${borrowInfo.getPageNum()+2}">1</a></li>
-                                                <li class="page-item" th:if="${borrowInfo.getPageNum()+3<=borrowInfo.pages}"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()+3}" th:text="${borrowInfo.getPageNum()+3}">1</a></li>
-                                                <li class="page-item" th:class="${borrowInfo.hasNextPage}? 'page-item':'page-item  disabled'"><a class="page-link" th:href="'?bpage='+${borrowInfo.getPageNum()+1}">下一页</a></li>
-                                                <li class="page-item" th:class="${borrowInfo.getPageNum()==borrowInfo.pages}? 'page-item  disabled':'page-item'"><a class="page-link" th:href="'?bpage='+${borrowInfo.pages}">尾页</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -230,6 +172,24 @@
 
         })
 
+    }
+    function searchUser(){
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'json',
+                url: '/admin/searchUser',
+                async: false,
+                data: {
+                    username: $('#searchBar').val()
+                },
+                success:function (data){
+                    if(data&&data.success){
+                        window.location.replace("/admin/searchUserResult")
+                    }
+                }
+            }
+        )
     }
 
 </script>
